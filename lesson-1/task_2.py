@@ -11,6 +11,7 @@ import os
 
 s_path = '/home/krasmich/Interview_python_delevoper'
 
+
 def print_directory_contents(s_path):
     """ Функция принимает имя директории и выводит ее содержимое, 
     включая содержимое всех поддиректории.
@@ -22,5 +23,6 @@ def print_directory_contents(s_path):
             print('Заходим', i)
             print_directory_contents(i)
             print('Возвращаемся в', s_path)
+
 
 print_directory_contents(s_path)

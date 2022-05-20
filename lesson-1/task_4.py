@@ -38,4 +38,5 @@ def calculate_deposit(amount, term):
             raise ValueError('Указана неправильная сумма вклада')
     return total_amount
 
+
 print(calculate_deposit(10000, 24))

@@ -10,6 +10,7 @@
 
 from random import randint
 
+
 def generator_numbers(start, end):
     """ Генерирует рандомные числа
     :param start: стартовая позиция
