@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table">
+    <tr>
+        <th>Название</th>
+        <th>Дата поступления</th>
+        <th>Еденица измерения</th>
+        <th>Имя поставщика</th>
+        <th>Цена</th>
+    </tr>
+    {% for object in object_list %}
+        <tr>
+            <td>{{ object.title }}</td>
+            <td>{{ object.created_at }}</td>
+            <td>{{ object.unit }}</td>
+            <td>{{ object.supplier }}</td>
+            <td>{{ object.price }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="" class="btn btn-success">Добавить</a>
+{% endblock %}
