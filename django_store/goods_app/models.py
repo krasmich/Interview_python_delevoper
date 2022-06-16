@@ -1,4 +1,24 @@
 from django.db import models
+from django.db.models import Manager
+
+from django.urls import reverse
+from django.contrib.sites.models import Site
+from django.contrib.sites.managers import CurrentSiteManager
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Категории'
+
+    def get_absolute_url(self):
+        return reverse('goods_app:category_list', args=[self.slug])
+
+    def __str__(self):
+        return self.name
 
 
 class GoodItems(models.Model):
@@ -7,15 +27,19 @@ class GoodItems(models.Model):
         (2, 'кг.'),
     )
 
+    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Название товара', max_length=255)
     created_at = models.DateTimeField(verbose_name='Дата поступления', auto_created=True, auto_now_add=True)
-    price = models.PositiveIntegerField(verbose_name='Цена', default=0)
+    price = models.DecimalField(verbose_name='Цена', max_digits=4, decimal_places=2)
     unit = models.PositiveIntegerField(verbose_name='Еденица измерения', choices=UNITS)
+    slug = models.SlugField(max_length=255)
     supplier = models.CharField(verbose_name='Имя поставщика', max_length=255)
-
-    def __unicode__(self):
-        return self.title
+    sites = models.ManyToManyField(Site)
+    object = Manager()
+    on_site = CurrentSiteManager('sites')
 
     class Meta:
-        verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+    def __str__(self):
+        return self.title
