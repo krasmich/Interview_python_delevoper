@@ -1,11 +1,15 @@
 from django.db import models
+from django.db.models import Manager
 
 from django.urls import reverse
+from django.contrib.sites.models import Site
+from django.contrib.sites.managers import CurrentSiteManager
 
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique=True)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name_plural = 'Категории'
@@ -30,6 +34,9 @@ class GoodItems(models.Model):
     unit = models.PositiveIntegerField(verbose_name='Еденица измерения', choices=UNITS)
     slug = models.SlugField(max_length=255)
     supplier = models.CharField(verbose_name='Имя поставщика', max_length=255)
+    sites = models.ManyToManyField(Site)
+    object = Manager()
+    on_site = CurrentSiteManager('sites')
 
     class Meta:
         verbose_name_plural = 'Товары'

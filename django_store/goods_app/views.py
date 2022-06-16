@@ -10,11 +10,11 @@ def categories(request):
 
 
 def all_goods(request):
-    goods = GoodItems.objects.all()
+    goods = GoodItems.on_site.all()
     return render(request, 'goods_app/home.html', {'goods': goods})
 
 
 def category_list(request, category_slug=None):
     category = get_object_or_404(Category, slug=category_slug)
-    goods = GoodItems.objects.select_related('category').filter(category=category)
+    goods = GoodItems.on_site.select_related('category').filter(category=category)
     return render(request, 'goods_app/category.html', {'category': category, 'goods': goods})
